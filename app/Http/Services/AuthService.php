@@ -58,4 +58,9 @@ class AuthService implements AuthServiceInterface
             return response()->json(['message' => $validator->errors()->first()]);
         }
     }
+
+    public function refresh()
+    {
+        return $this->repository->refresh();
+    }
 }

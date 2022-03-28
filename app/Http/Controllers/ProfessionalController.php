@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Interfaces\Service\ProfessionalServiceInterface;
+use App\Models\Professional;
+use App\Models\ProfessionalAvailability;
+use App\Models\ProfessionalPhotos;
+use App\Models\ProfessionalServices;
+use App\Models\ProfessionalTestimonials;
+use Illuminate\Http\Request;
 
 class ProfessionalController extends Controller
 {
@@ -16,23 +22,8 @@ class ProfessionalController extends Controller
         $this->service = $service;
     }
 
-    public function nome()
+    public function list(Request $request)
     {
-        return $this->service->informacaoLoja();
-    }
-
-    public function informacoes()
-    {
-        return $this->service->informacaoLoja()->informacoes();
-    }
-
-    public function tema()
-    {
-        return $this->service->informacaoLoja()->tema();
-    }
-
-    public function dados()
-    {
-        return $this->service->informacaoLojaDados();
+        return $this->service->allProfessionals($request);
     }
 }

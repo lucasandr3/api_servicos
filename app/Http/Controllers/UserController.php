@@ -16,8 +16,15 @@ class UserController extends Controller
         $this->service = $service;
     }
 
-    public function categorias()
+    public function read()
     {
-        return $this->service->categorias();
+        $user = [
+            'id' => auth()->user()->getAuthIdentifier(),
+            'name' => auth()->user()['name'],
+            'avatar' => url('media/avatars/'.auth()->user()['avatar']),
+            'email' => auth()->user()['email']
+        ];
+
+        return ['error' => '', 'data' => $user];
     }
 }

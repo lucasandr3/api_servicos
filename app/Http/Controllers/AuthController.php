@@ -28,25 +28,19 @@ class AuthController extends Controller
         return $this->service->login($request);
     }
 
-    public function validateToken()
+    public function refresh()
     {
-        $user = auth()->user();
-
-        if($user) {
-            return response()->json($user);
-        } else {
-            return $this->logout();
-        }
+       return $this->service->refresh();
     }
 
     public function logout()
     {
         auth()->logout();
-        return 'Unauthorized';
+        return ['error' => ''];
     }
 
     public function unauthorized()
     {
-        return response()->json('Unauthorizwed', 401);
+        return response()->json(['error' => 'Não Autorizado'], 401);
     }
 }

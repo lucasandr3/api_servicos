@@ -29,8 +29,8 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function loginUser(array $credentials)
     {
-        if (! $token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        if (!$token = Auth::attempt($credentials)) {
+            return ['error' => 'Dados Incorretos.'];
         }
 
         return $this->respondWithToken($token);
@@ -44,6 +44,12 @@ class AuthRepository implements AuthRepositoryInterface
             'expires_in' => Auth::factory()->getTTL() * 60,
             'user' => \auth()->user()
         ], 200);
+    }
+
+    public function refresh()
+    {
+        $token = \auth()->refresh();
+        return $this->respondWithToken($token);
     }
 
     private function dadosUsuario()

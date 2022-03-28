@@ -21,14 +21,19 @@ $router->get('/ping', function () use ($router) {
     return ['data' => ['ping' => 'pong', 'versão' => '1.0.0']];
 });
 
+$router->get('/401', [
+    'as' => 'login', 'uses' => 'AuthController@unauthorized'
+]);
+
 // rotas publicas de autenticação
 $router->post('api/auth/register', 'AuthController@register');
 $router->post('api/auth/login', 'AuthController@login');
-$router->post('api/auth/logout', 'AuthController@logout');
-$router->post('api/auth/refresh', 'AuthController@refresh');
+$router->post('api/auth/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
+$router->post('api/auth/refresh', ['middleware' => 'auth', 'uses' => 'AuthController@refresh']);
 
 // rota de usuarios
 $router->group([
+    'middleware' => 'auth',
     'prefix' => 'api/user'
 ], function () use ($router) {
     $router->get('/', 'UserController@read');
@@ -40,6 +45,7 @@ $router->group([
 
 // rota de profissionais
 $router->group([
+    'middleware' => 'auth',
     'prefix' => 'api/professionals'
 ], function () use ($router) {
     $router->get('/', 'ProfessionalController@list');

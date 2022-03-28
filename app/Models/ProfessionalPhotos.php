@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Adicionais extends Model
+class ProfessionalPhotos extends Model
 {
-    protected $table = "produtos_adicionais";
+    protected $table = "professionalphotos";
     protected $fillable = ['*'];
     public $timestamps = false;
 }

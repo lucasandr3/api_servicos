@@ -7,8 +7,18 @@ use App\Models\Professional;
 
 class ProfessionalRepository implements ProfessionalRepositoryInterface
 {
-    public function getInfo()
+    public function getProfessionals($latitude, $longitude, $offset)
     {
-        return Professional::first();
+        return Professional::select(Professional::raw(
+            '*, SQRT(
+                POW(69.1 * (latitude - '.$latitude.'), 2) +
+                POW(69.1 * ('.$longitude.' - longitude) * COS(latitude / 57.3), 2)) AS distance
+            '
+        ))
+            ->havingRaw('distance < ?', [10])
+            ->orderBy('distance', 'ASC')
+            ->offset($offset)
+            ->limit(5)
+            ->get();
     }
 }

@@ -16,21 +16,65 @@ class ProfessionalService implements ProfessionalServiceInterface
         $this->repository = $repository;
     }
 
-    public function informacaoLoja()
+    public function allProfessionals($request)
     {
-        return $this->repository->getInfo();
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+        $city = $request->input('city');
+        $offset = $request->input('offset');
+
+        if(!$offset) {
+            $offset = 0;
+        }
+
+        // filtro de localizacao
+        if(!empty($city)) {
+            $response = $this->searchGeo($city);
+
+            if(sizeof($response) > 0) {
+                $data = (object)$response['data'][0];
+                $latitude = $data->latitude;
+                $longitude = $data->longitude;
+            }
+
+        } elseif (!empty($latitude) && !empty($longitude)) {
+            $response = $this->searchGeo("{$latitude},{$longitude}");
+
+            if(sizeof($response) > 0) {
+                $data = (object)$response['data'][0];
+                $city = $data->locality;
+            }
+
+        } else {
+            $latitude = '-23.5630907';
+            $longitude = '-46.6682795';
+            $city = 'São Paulo';
+        }
+
+        $professionals = $this->repository->getProfessionals($latitude, $longitude, $offset)->toArray();
+
+        return ['error' => '', 'data' => $professionals];
     }
 
-    public function informacaoLojaDados()
+    private function searchGeo($address)
     {
-        $loja = $this->repository->getInfo();
+        $key = env('MAPS_KEY', null);
+        $endpoint = "http://api.positionstack.com/v1";
 
-        $dados = [
-            'nome' => $loja,
-            'informacoes' => $loja->informacoes(),
-            'tema' => $loja->tema()
-        ];
+        $queryString = http_build_query([
+            'access_key' => $key,
+            'query' => $address,
+            'output' => 'json',
+            'limit' => 1,
+        ]);
 
-        return $dados;
+        $ch = curl_init(sprintf('%s?%s', "{$endpoint}/forward", $queryString));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $json = curl_exec($ch);
+
+        curl_close($ch);
+
+        return json_decode($json, true);
     }
 }
