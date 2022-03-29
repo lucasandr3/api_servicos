@@ -39,7 +39,7 @@ $router->group([
     $router->get('/', 'UserController@read');
     $router->put('/update/{user}', 'UserController@update');
     $router->get('/favorites', 'UserController@getFavorites');
-    $router->get('/favorite', 'UserController@addFavorite');
+    $router->post('/favorite', 'UserController@addFavorite');
     $router->get('/appointments', 'UserController@getAppointments');
 });
 

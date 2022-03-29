@@ -6,5 +6,7 @@ namespace App\Http\Interfaces\Service;
 
 interface UserServiceInterface
 {
-    public function categorias();
+    public function favoriteProfessional(object $request);
+
+    public function getFavorites();
 }

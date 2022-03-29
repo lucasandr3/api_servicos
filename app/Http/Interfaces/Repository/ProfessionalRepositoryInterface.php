@@ -13,4 +13,16 @@ interface ProfessionalRepositoryInterface
     public function getAppointmentsByProfessional(int $profesisonal, array $filter);
 
     public function isFavorite(int $user, int $professional);
+
+    public function unFavorite(int $user, int $professional);
+
+    public function isExistsProfessional(int $service, int $professional);
+
+    public function professionalExists(int $professional);
+
+    public function getAppointmentsByProfessionalCount($professional, $apDate);
+
+    public function getWeekDayByProfessional($professional, $weekDay);
+
+    public function saveAppointments($newApp);
 }

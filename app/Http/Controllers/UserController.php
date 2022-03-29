@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Interfaces\Service\UserServiceInterface;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -26,5 +27,15 @@ class UserController extends Controller
         ];
 
         return ['error' => '', 'data' => $user];
+    }
+
+    public function addFavorite(Request $request)
+    {
+        return $this->service->favoriteProfessional($request);
+    }
+
+    public function getFavorites()
+    {
+        return $this->service->getFavorites();
     }
 }

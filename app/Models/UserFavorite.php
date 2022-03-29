@@ -10,5 +10,10 @@ class UserFavorite extends Model
     protected $table = "userfavorites";
     protected $fillable = ['*'];
     public $timestamps = false;
+
+    public function professionals()
+    {
+        return $this->hasMany(Professional::class, 'professional_id');
+    }
 }
 

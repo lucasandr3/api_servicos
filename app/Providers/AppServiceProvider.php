@@ -25,20 +25,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\App\Http\Interfaces\Service\ProfessionalServiceInterface::class, \App\Http\Services\ProfessionalService::class);
         $this->app->bind(\App\Http\Interfaces\Repository\ProfessionalRepositoryInterface::class, \App\Http\Repositories\ProfessionalRepository::class);
 
-        // Binds Produtos
-        $this->app->bind(\App\Http\Interfaces\Service\ProdutosServiceInterface::class, \App\Http\Services\ProdutosService::class);
-        $this->app->bind(\App\Http\Interfaces\Repository\ProdutosRepositoryInterface::class, \App\Http\Repositories\ProdutosRepository::class);
-
-        // Binds Adicionais
-        $this->app->bind(\App\Http\Interfaces\Service\AdicionaisServiceInterface::class, \App\Http\Services\AdicionaisService::class);
-        $this->app->bind(\App\Http\Interfaces\Repository\AdicionaisRepositoryInterface::class, \App\Http\Repositories\AdicionaisRepository::class);
-
-        // Binds Opcoes
-        $this->app->bind(\App\Http\Interfaces\Service\OpcoesServiceInterface::class, \App\Http\Services\OpcoesService::class);
-        $this->app->bind(\App\Http\Interfaces\Repository\OpcoesRepositoryInterface::class, \App\Http\Repositories\OpcoesRepository::class);
-
-        // Binds Categorias
-        $this->app->bind(\App\Http\Interfaces\Service\CategoriaServiceInterface::class, \App\Http\Services\CategoriaService::class);
-        $this->app->bind(\App\Http\Interfaces\Repository\CategoriaRepositoryInterface::class, \App\Http\Repositories\CategoriaRepository::class);
+        // Binds Professional Products
+        $this->app->bind(\App\Http\Interfaces\Service\ProductsProfessionalServiceInterface::class, \App\Http\Services\ProductsProfessionalService::class);
+        $this->app->bind(\App\Http\Interfaces\Repository\ProductsProfessionalRepositoryInterface::class, \App\Http\Repositories\ProductsProfessionalRepository::class);
     }
 }
