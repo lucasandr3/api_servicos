@@ -88,4 +88,14 @@ class ProfessionalRepository implements ProfessionalRepositoryInterface
             return response()->json(['error' => 'Erro ao cadastrar usuário!'], 409);
         }
     }
+
+    public function searchProfessionals(string $query)
+    {
+        return Professional::where('name', 'LIKE', '%'.$query.'%')->get();
+    }
+
+    public function getServiceByID(int $service)
+    {
+        return ProfessionalServices::find($service);
+    }
 }

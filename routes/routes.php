@@ -37,7 +37,8 @@ $router->group([
     'prefix' => 'api/user'
 ], function () use ($router) {
     $router->get('/', 'UserController@read');
-    $router->put('/update/{user}', 'UserController@update');
+    $router->put('/update', 'UserController@update');
+    $router->post('/avatar','UserController@updateAvatar');
     $router->get('/favorites', 'UserController@getFavorites');
     $router->post('/favorite', 'UserController@addFavorite');
     $router->get('/appointments', 'UserController@getAppointments');
@@ -45,7 +46,7 @@ $router->group([
 
 // rota de profissionais
 $router->group([
-//    'middleware' => 'auth',
+    'middleware' => 'auth',
     'prefix' => 'api/professionals'
 ], function () use ($router) {
     $router->get('/', 'ProfessionalController@list');

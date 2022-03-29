@@ -11,4 +11,6 @@ interface ProfessionalServiceInterface
     public function getProfessional(int $professional);
 
     public function newAppointment(int $professional, object $request);
+
+    public function searchProfessional(object $request);
 }

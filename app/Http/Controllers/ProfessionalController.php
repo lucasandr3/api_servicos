@@ -36,4 +36,9 @@ class ProfessionalController extends Controller
     {
         return $this->service->newAppointment($professional, $request);
     }
+
+    public function search(Request $request)
+    {
+        return $this->service->searchProfessional($request);
+    }
 }

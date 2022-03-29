@@ -176,4 +176,16 @@ class ProfessionalService implements ProfessionalServiceInterface
         }
 
     }
+
+    public function searchProfessional(object $request)
+    {
+        $query = $request->input('query');
+
+        if(!$query) {
+            return response()->json(['error' => 'Digite algo para buscar.']);
+        }
+
+        $professionals = $this->repository->searchProfessionals($query);
+        return response()->json(['error' => '', 'list' => $professionals]);
+    }
 }

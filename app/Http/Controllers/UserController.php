@@ -38,4 +38,19 @@ class UserController extends Controller
     {
         return $this->service->getFavorites();
     }
+
+    public function getAppointments()
+    {
+        return $this->service->getMyAppointments();
+    }
+
+    public function update(Request $request)
+    {
+        return $this->service->updateProfile($request);
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        return $this->service->updateAvatarProfile($request);
+    }
 }

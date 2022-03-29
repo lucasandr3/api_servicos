@@ -25,4 +25,8 @@ interface ProfessionalRepositoryInterface
     public function getWeekDayByProfessional($professional, $weekDay);
 
     public function saveAppointments($newApp);
+
+    public function searchProfessionals(string $query);
+
+    public function getServiceByID(int $service);
 }
