@@ -13,6 +13,12 @@
 |
 */
 
+/**
+ * ##################
+ * ### ROTA PING ###
+ * ##################
+ */
+
 $router->get('/', function () use ($router) {
     return redirect('/ping');
 });
@@ -21,17 +27,33 @@ $router->get('/ping', function () use ($router) {
     return ['data' => ['ping' => 'pong', 'versão' => '1.0.0']];
 });
 
+/**
+ * ##################
+ * ### ROTA 401 ###
+ * ##################
+ */
+
 $router->get('/401', [
     'as' => 'login', 'uses' => 'AuthController@unauthorized'
 ]);
 
-// rotas publicas de autenticação
+/**
+ * ##################
+ * ### ROTAS AUTH ###
+ * ##################
+ */
+
 $router->post('api/auth/register', 'AuthController@register');
 $router->post('api/auth/login', 'AuthController@login');
 $router->post('api/auth/logout', ['middleware' => 'auth', 'uses' => 'AuthController@logout']);
 $router->post('api/auth/refresh', ['middleware' => 'auth', 'uses' => 'AuthController@refresh']);
 
-// rota de usuarios
+/**
+ * ##################
+ * ### ROTAS USUARIOS ###
+ * ##################
+ */
+
 $router->group([
     'middleware' => 'auth',
     'prefix' => 'api/user'
@@ -44,7 +66,12 @@ $router->group([
     $router->get('/appointments', 'UserController@getAppointments');
 });
 
-// rota de profissionais
+/**
+ * ##################
+ * ### ROTAS PROFESSIONALS ###
+ * ##################
+ */
+
 $router->group([
     'middleware' => 'auth',
     'prefix' => 'api/professionals'
