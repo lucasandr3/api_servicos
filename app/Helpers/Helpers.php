@@ -409,4 +409,46 @@ class Helpers
 
         return $response;
     }
+
+    public static function decodeAvailability($data, $appoitments)
+    {
+        $result = [];
+        $appoitmentsDates = [];
+        $availability = [];
+
+        foreach ($data as $item) {
+            $result[$item['weekday']] = explode(',', $item['hours']);
+        }
+
+        foreach ($appoitments as $ap) {
+            $appoitmentsDates[] = $ap['ap_datetime'];
+        }
+
+        //gerar disponibilidade real
+        for ($i = 0; $i < 20; $i++) {
+            $timeItem = strtotime('+'.$i.' days');
+            $weekDay = date('w', $timeItem);
+
+            if(in_array($weekDay, array_keys($result))) {
+                $hours = [];
+                $dayItem = date('Y-m-d', $timeItem);
+
+                foreach ($result[$weekDay] as $hourItem) {
+                    $dayFormated = $dayItem.' '.$hourItem.':00';
+                    if(!in_array($dayFormated, $appoitmentsDates)) {
+                        $hours[] = $hourItem;
+                    }
+                }
+
+                if(sizeof($hours) > 0) {
+                    $availability[] = [
+                        'date' => $dayItem,
+                        'hours' => $hours
+                    ];
+                }
+            }
+        }
+
+        return $availability;
+    }
 }

@@ -45,7 +45,7 @@ $router->group([
 
 // rota de profissionais
 $router->group([
-    'middleware' => 'auth',
+//    'middleware' => 'auth',
     'prefix' => 'api/professionals'
 ], function () use ($router) {
     $router->get('/', 'ProfessionalController@list');

@@ -26,4 +26,9 @@ class ProfessionalController extends Controller
     {
         return $this->service->allProfessionals($request);
     }
+
+    public function one($professional)
+    {
+       return $this->service->getProfessional($professional);
+    }
 }

@@ -9,5 +9,10 @@ class ProfessionalPhotos extends Model
     protected $table = "professionalphotos";
     protected $fillable = ['*'];
     public $timestamps = false;
+
+    public function getUrlAttribute($value): string
+    {
+        return url("media/avatars/{$value}");
+    }
 }
 

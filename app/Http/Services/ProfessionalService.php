@@ -4,14 +4,19 @@
 namespace App\Http\Services;
 
 
+use App\Helpers\Helpers;
 use App\Http\Interfaces\Repository\ProfessionalRepositoryInterface;
 use App\Http\Interfaces\Service\ProfessionalServiceInterface;
+use App\Http\Interfaces\Service\UserServiceInterface;
 
 class ProfessionalService implements ProfessionalServiceInterface
 {
     private $repository;
 
-    public function __construct(ProfessionalRepositoryInterface $repository)
+    public function __construct
+    (
+        ProfessionalRepositoryInterface $repository
+    )
     {
         $this->repository = $repository;
     }
@@ -76,5 +81,36 @@ class ProfessionalService implements ProfessionalServiceInterface
         curl_close($ch);
 
         return json_decode($json, true);
+    }
+
+    public function getProfessional(int $professional)
+    {
+        $professional = $this->repository->getProfessionalByID($professional);
+
+        if(!$professional) {
+            return response()->json(['error' => 'Profissional não encontrado'], 401);
+        }
+
+        $filterDataIntervalAppointments = [
+            date('Y-m-d').' 00:00:00',
+            date('Y-m-d', strtotime('+20 days')).' 23:59:59'
+        ];
+
+        $appointments = $this->getAppointmentsByProfessional($professional->id, $filterDataIntervalAppointments);
+        $availsWeekdays = Helpers::decodeAvailability($professional->availability()->getResults()->toArray(), $appointments);
+        $isFavorite = $this->repository->isFavorite(auth()->user()->getAuthIdentifier(), $professional->id);
+
+        $professional->favorited = $isFavorite > 0;
+        $professional->photos = $professional->photos()->get();
+        $professional->services = $professional->services()->get();
+        $professional->testimonials = $professional->testimonials()->get();
+        $professional->available = $availsWeekdays;
+
+        return response()->json(['error' => '', 'data' => $professional], 200);
+    }
+
+    public function getAppointmentsByProfessional(int $profesisonal, array $filter)
+    {
+        return $this->repository->getAppointmentsByProfessional($profesisonal, $filter);
     }
 }
