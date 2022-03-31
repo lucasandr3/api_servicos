@@ -36,6 +36,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password'
     ];
 
+    public function getAvatarAttribute($value): string
+    {
+        return url("media/avatars/{$value}");
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

@@ -30,7 +30,7 @@ class AuthRepository implements AuthRepositoryInterface
     public function loginUser(array $credentials)
     {
         if (!$token = Auth::attempt($credentials)) {
-            return ['error' => 'Dados Incorretos.'];
+            return response()->json(['error' => 'Dados Incorretos.'], 409);
         }
 
         return $this->respondWithToken($token);
