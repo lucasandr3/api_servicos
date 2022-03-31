@@ -28,6 +28,7 @@ class ProfessionalService implements ProfessionalServiceInterface
 
     public function allProfessionals($request)
     {
+        $location = 'São Paulo';
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
         $city = $request->input('city');
@@ -63,7 +64,7 @@ class ProfessionalService implements ProfessionalServiceInterface
 
         $professionals = $this->repository->getProfessionals($latitude, $longitude, $offset)->toArray();
 
-        return ['error' => '', 'data' => $professionals];
+        return ['error' => '', 'data' => $professionals, 'location' => $location];
     }
 
     private function searchGeo($address)
