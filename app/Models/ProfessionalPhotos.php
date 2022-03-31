@@ -12,7 +12,7 @@ class ProfessionalPhotos extends Model
 
     public function getUrlAttribute($value): string
     {
-        return url("media/avatars/{$value}");
+        return url("media/avatars/professionals/{$value}");
     }
 }
 

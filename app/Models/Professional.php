@@ -13,7 +13,7 @@ class Professional extends Model
 
     public function getAvatarAttribute($value): string
     {
-        return url("media/avatars/{$value}");
+        return url("media/avatars/professionals/{$value}");
     }
 
     public function photos(): HasMany
